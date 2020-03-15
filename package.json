@@ -1,0 +1,18 @@
+{
+  "name": "esprim.xyz",
+  "version": "0.1.0",
+  "description": "Duhyeok Ko's blog",
+  "main": "index.js",
+  "repository": "https://github.com/duhyeokko/esprim.git",
+  "author": "Duhyeok Ko <duhyeok.ko@gmail.com>",
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "dev": "gatsby develop"
+  },
+  "dependencies": {
+    "gatsby": "^2.19.43",
+    "react": "^16.13.0",
+    "react-dom": "^16.13.0"
+  }
+}
