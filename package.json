@@ -1,0 +1,37 @@
+{
+  "name": "esprim.xyz",
+  "version": "0.1.0",
+  "description": "Duhyeok Ko's blog",
+  "main": "index.js",
+  "repository": "https://github.com/duhyeokko/esprim.git",
+  "author": "Duhyeok Ko <duhyeok.ko@gmail.com>",
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "build": "ts-node node_modules/.bin/gatsby build",
+    "clean": "gatsby clean",
+    "dev": "ts-node node_modules/.bin/gatsby develop",
+    "lint": "eslint --ext=.ts,.tsx,.d.ts ./*.ts ./config/**/* ./src/**/*",
+    "lint:fix": "eslint --ext=.ts,.tsx,.d.ts --fix ./*.ts ./config/**/* ./src/**/*"
+  },
+  "dependencies": {
+    "gatsby": "^2.24.63",
+    "gatsby-plugin-typescript": "^2.4.20",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-helmet": "^6.1.0"
+  },
+  "devDependencies": {
+    "@types/react-helmet": "^6.1.0",
+    "@typescript-eslint/eslint-plugin": "^4.1.1",
+    "@typescript-eslint/parser": "^4.1.1",
+    "eslint": "^7.9.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-react": "^7.20.6",
+    "eslint-plugin-react-hooks": "^4.1.2",
+    "prettier": "^2.1.2",
+    "ts-node": "^9.0.0",
+    "typescript": "^4.0.3"
+  }
+}
