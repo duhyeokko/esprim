@@ -1,6 +1,14 @@
 import { CreatePagesArgs } from 'gatsby'
 import { NotionAPI } from 'notion-client'
-import { Block, CollectionInstance, CollectionPropertySchemaMap, Decoration, PageBlock } from 'notion-types'
+import {
+  Block,
+  CollectionInstance,
+  CollectionPropertySchemaMap,
+  DateFormat,
+  Decoration,
+  PageBlock,
+  SubDecoration,
+} from 'notion-types'
 
 interface CollectionData {
   id: string
@@ -17,7 +25,8 @@ const getCollectionData = async (notion: NotionAPI, pageId: string): Promise<Col
     const collectionViews = Object.values(page.collection_view)
 
     if (collections.length === 0 || collectionViews.length === 0) {
-      throw new Error('Collection is empty')
+      console.error('Collection is empty')
+      return null
     }
 
     const collection = collections[0].value
@@ -43,16 +52,18 @@ const getBlocksFromCollectionData = (collectionData: CollectionInstance): Block[
   return Object.values(collectionData.recordMap.block).map((i) => i.value)
 }
 
-const getPageBlocksFromBlocks = (blocks: Block[], collectionId: string): PageBlock[] =>
-  blocks
+const getPageBlocksFromBlocks = (blocks: Block[], collectionId: string): PageBlock[] => {
+  return blocks
     .filter((block) => block.type === 'page' && block.parent_id === collectionId && block.parent_table === 'collection')
     .map((block) => block as PageBlock)
+}
 
 interface Post {
   id: string
   title: string
-  author: string
-  visible: string
+  author: SubDecoration | undefined
+  date: string | undefined
+  visible: boolean
   tags: string[]
   status: string
   contents: string[]
@@ -65,19 +76,28 @@ interface Post {
 
 const buildPostFromPageBlock = (schema: { [k: string]: string }) => (pageBlock: PageBlock): Post => {
   const properties = Object.fromEntries(
-    Object.entries(pageBlock.properties || {}).map((property) => {
-      const id = property[0]
-      const name = schema[id].toLowerCase()
-      const value = property[1]
-      return [name, value]
-    }),
+    Object.entries(pageBlock.properties || {})
+      .filter((property) => !!property && Object.keys(property).length > 0)
+      .map((property) => {
+        const id = property[0]
+        const name = schema[id].toLowerCase()
+        const value = property[1]
+        return [name, value]
+      }),
   )
+
+  console.log(properties)
+
+  const visible = properties['visible'] ? properties['visible'][0][0] === 'Yes' : false
+  const author = properties['author'][0][1] ? properties['author'][0][1][0] : undefined
+  const date = properties['date'][0][1] ? (properties['date'][0][1]![0] as DateFormat)[1]['start_date'] : undefined
 
   return {
     id: pageBlock.id,
     title: properties['title'][0][0],
-    author: properties['author'][0][0],
-    visible: properties['visible'][0][0],
+    author,
+    date,
+    visible,
     tags: properties['tags'][0][0].split(','),
     status: properties['status'][0][0],
     contents: pageBlock.content || [],
@@ -87,8 +107,8 @@ const buildPostFromPageBlock = (schema: { [k: string]: string }) => (pageBlock: 
   }
 }
 
-export const createPages = async ({}: CreatePagesArgs) => {
-  const authToken = `4d5f4face389bf5ef197ff7fa148dc721c0b3e0ab760a45ec5df733889ef5b36aa8f5d9f20f3f195e00595fd8f9aaf530a7484aac6c7ed5d5bcf30475229eef80c8d7c09f5ce5980a93f52c8a7e4`
+const createPages = async ({}: CreatePagesArgs) => {
+  const authToken = `24395ecb63b6177fbddd840cafda09d9f2454adfa8613048ab61cb1f0bb827049f0db0b573975e925d12d8a3e3d623b3ffae94eef3cdcb6da777ffb7d0c86f36a7e2f8277a24c0644e068723f946`
   const notion = new NotionAPI({
     authToken,
   })
@@ -105,3 +125,5 @@ export const createPages = async ({}: CreatePagesArgs) => {
     console.log(posts)
   }
 }
+
+export default { createPages }
