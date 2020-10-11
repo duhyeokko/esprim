@@ -15,6 +15,7 @@
     "lint:fix": "eslint --ext=.ts,.tsx,.d.ts --fix ./*.ts ./config/**/* ./src/**/*"
   },
   "dependencies": {
+    "dotenv": "^8.2.0",
     "gatsby": "^2.24.63",
     "gatsby-plugin-typescript": "^2.4.20",
     "gatsby-source-filesystem": "^2.3.30",
@@ -22,7 +23,8 @@
     "ramda": "^0.27.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-helmet": "^6.1.0"
+    "react-helmet": "^6.1.0",
+    "react-notion": "^0.8.2"
   },
   "devDependencies": {
     "@types/ramda": "^0.27.17",
