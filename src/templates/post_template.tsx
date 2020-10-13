@@ -1,5 +1,4 @@
 import { ReplaceComponentRendererArgs } from 'gatsby'
-import { BlockType } from 'notion-types'
 import React from 'react'
 import { BlockMapType, NotionRenderer } from 'react-notion'
 import { Post } from '../source/notion/post'
