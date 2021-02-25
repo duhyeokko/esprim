@@ -1,5 +1,5 @@
 import 'dotenv/config'
-import { CreatePagesArgs } from 'gatsby'
+import { Actions, CreatePagesArgs } from 'gatsby'
 import { NotionAPI } from 'notion-client'
 import { PageBlock } from 'notion-types'
 import { resolve } from 'path'
@@ -10,12 +10,21 @@ import { buildPostFromPageBlock } from './src/source/notion/post'
 import { getSchemaFromCollection } from './src/source/notion/schema'
 
 export const createPages = async ({ actions }: CreatePagesArgs) => {
+  await createPagesFromNotion(actions)
+}
+
+async function createPagesFromNotion(actions: Actions) {
   const { createPage } = actions
   const authToken = process.env.TOKEN
   const notion = new NotionAPI({
     authToken,
   })
   const pageId = process.env.PAGE_ID || ''
+
+  if (R.isEmpty(pageId)) {
+    console.warn('Page id must not be empty')
+    return
+  }
 
   const collection = await getCollection(notion, pageId)
 
@@ -35,8 +44,6 @@ export const createPages = async ({ actions }: CreatePagesArgs) => {
       return
     }
 
-    console.log(post.id.toString())
-    // console.log(JSON.stringify(post.id, null, 4))
     createPage({
       path: post.id.toString().replace('-', ''),
       context: post,

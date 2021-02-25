@@ -1,9 +1,9 @@
-import { siteMetadata, SiteMetadata } from './config/site-metadata'
-import { GatsbyConfig } from './src/@types/gatsby-config'
+import { siteMetadata } from './config/site-metadata'
+import { GatsbyConfig } from 'gatsby'
 
-const config: GatsbyConfig<SiteMetadata> = {
+const config: GatsbyConfig = {
   siteMetadata,
-  plugins: ['gatsby-plugin-typescript'],
+  plugins: ['gatsby-plugin-typescript', 'gatsby-plugin-tsconfig-paths'],
 }
 
 export default config

@@ -3,19 +3,19 @@
     "target": "esnext",
     "module": "commonjs",
     "lib": ["es5", "es6", "es7", "es2017", "dom", "es2019"],
-    "jsx": "preserve",
+    "jsx": "react",
     "sourceMap": true,
     "rootDir": "./",
     "noEmit": true,
     "strict": true,
-    "baseUrl": "./src",
-    "typeRoots": [
-      "./src/@types",
-      "./node_modules/@types"
-    ],
+    "baseUrl": ".",
     "allowSyntheticDefaultImports": true,
     "noUnusedLocals": true,
-    "noUnusedParameters": true
+    "noUnusedParameters": true,
+    "paths": {
+      "@config/*": ["config/*"],
+      "@src/*": ["src/*"]
+    },
   },
   "include": ["./src/**/*"],
   "exclude": ["node_modules"]
