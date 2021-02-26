@@ -1,9 +1,9 @@
-import React from 'react'
+import { FC } from 'react'
 import { Helmet } from 'react-helmet'
 import { siteMetadata } from '@config/site-metadata'
 
 type IndexPageProps = Record<string, never>
-const IndexPage: React.FC<IndexPageProps> = () => {
+const IndexPage: FC<IndexPageProps> = () => {
   return (
     <>
       <Helmet titleTemplate={'%s | ' + siteMetadata.title}>
